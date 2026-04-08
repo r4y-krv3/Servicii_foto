@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── 1. Date curente ── */
-  const BOOKED_DAYS = [3, 7, 12, 15, 18, 22, 25]; // zile rezervate (fixe demo)
+  const BOOKED_DAYS = [3, 7, 12, 15, 18, 22, 25];
   const MONTHS_RO = [
     'Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie',
     'Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'
   ];
 
-  let viewDate = new Date();          // luna afișată
+  let viewDate = new Date();
   const today  = new Date();
   today.setHours(0,0,0,0);
 
-  /* ── 2. Referințe DOM ── */
   const monthLabel  = document.getElementById('cal-month-label');
   const calBody     = document.getElementById('cal-body');
   const radioWrap   = document.getElementById('cal-radios');     // container radios
@@ -19,15 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const hiddenDate  = document.getElementById('dateInput');
   const styleTag    = document.getElementById('cal-dynamic-css');
 
-  /* ── 3. Render calendar ── */
   function render() {
     const y = viewDate.getFullYear();
     const m = viewDate.getMonth();
 
     monthLabel.textContent = MONTHS_RO[m] + ' ' + y;
 
-    const firstDay    = new Date(y, m, 1).getDay();       // 0=Sun
-    const offset      = firstDay === 0 ? 6 : firstDay - 1; // Mon-based
+    const firstDay    = new Date(y, m, 1).getDay();
+    const offset      = firstDay === 0 ? 6 : firstDay - 1;
     const daysInMonth = new Date(y, m + 1, 0).getDate();
 
     // Build rows
@@ -44,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     while (cells.length % 7 !== 0) cells.push(null);
 
-    // Clear & fill tbody
     calBody.innerHTML = '';
     const selectable = [];
 
@@ -63,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
           td.className = 'cal-past';
           td.textContent = cell.d;
         } else {
-          // today or available — selectable
           const id = `day-${y}-${m}-${cell.d}`;
           const cls = cell.type === 'today' ? 'cal-selectable cal-today' : 'cal-selectable';
           td.className = cls;
@@ -75,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
       calBody.appendChild(tr);
     }
 
-    // Rebuild radios
     radioWrap.innerHTML = '';
     selectable.forEach(({ id, d, y, m }) => {
       const inp = document.createElement('input');
@@ -93,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
       radioWrap.appendChild(inp);
     });
 
-    // Dynamic CSS: highlight selected label + date-display border
     let dynamicCSS = '';
     selectable.forEach(({ id }) => {
       dynamicCSS += `
@@ -105,14 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     styleTag.textContent = dynamicCSS;
 
-    // Reset selection display
     dateDisplay.textContent = 'Selectați din calendar';
     dateDisplay.style.fontStyle = 'italic';
     dateDisplay.style.color = 'var(--warm-gray)';
     if (hiddenDate) hiddenDate.value = '';
   }
 
-  /* ── 4. Nav buttons ── */
   document.getElementById('cal-prev').addEventListener('click', () => {
     viewDate.setMonth(viewDate.getMonth() - 1);
     render();

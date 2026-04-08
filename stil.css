@@ -20,7 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── NAVIGARE :target ── */
 .page {
   display: none;
   min-height: 100vh;
@@ -75,7 +74,6 @@ nav a::after {
 nav a:hover { color: var(--cream); }
 nav a:hover::after { width: 100%; }
 
-/* Link activ prin :target */
 body:not(:has(.page:target)) a[href="#home"],
 body:has(#home:target)       a[href="#home"],
 body:has(#portfolio:target)  a[href="#portfolio"],
@@ -241,7 +239,7 @@ body:has(#schedule:target)   a[href="#schedule"]::after { width: 100%; }
 .cal-month { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 300; }
 .cal-nav { display: flex; gap: 10px; }
 
-/* ── CALENDAR TABLE ── */
+/* ── CALENDAR ── */
 .cal-table {
   width: 100%;
   border-collapse: collapse;
@@ -266,7 +264,7 @@ body:has(#schedule:target)   a[href="#schedule"]::after { width: 100%; }
   width: 4px; height: 4px; border-radius: 50%; background: #a0392b;
 }
 
-/* Selectable (available + today) — label as click target */
+/* Selectabile */
 .cal-table td.cal-selectable { padding: 0; }
 .cal-table td.cal-selectable label {
   display: flex; align-items: center; justify-content: center;
@@ -282,17 +280,16 @@ body:has(#schedule:target)   a[href="#schedule"]::after { width: 100%; }
   box-shadow: inset 0 0 0 1.5px var(--accent); color: var(--accent); font-weight: 600;
 }
 
-/* Hidden radios — placed before table as siblings */
 .cal-radio {
   position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
 }
 
-/* ── LEGEND ── */
+/* ── LEGENDA ── */
 .cal-legend { display: flex; gap: 22px; margin-top: 20px; }
 .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.6rem; color: var(--warm-gray); }
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-/* ── BOOKING FORM ── */
+/* ── FORMULAR REZERVARI ── */
 .booking-form { margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--border); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .form-field { display: flex; flex-direction: column; gap: 7px; }
@@ -310,7 +307,6 @@ body:has(#schedule:target)   a[href="#schedule"]::after { width: 100%; }
 .form-field input:not(:placeholder-shown):invalid { border-color: rgba(160,57,43,0.6); }
 .form-field input:not(:placeholder-shown):valid   { border-color: rgba(90,154,90,0.5); }
 
-/* Date display box (driven by :checked radios) */
 .date-display {
   background: rgba(255,255,255,0.04); border: 1px solid var(--border);
   color: var(--cream); font-family: 'Montserrat', sans-serif; font-size: 0.76rem;
