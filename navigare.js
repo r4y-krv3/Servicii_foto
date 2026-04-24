@@ -1,13 +1,6 @@
-const EMAILJS_PUBLIC_KEY  = 'iMTr-u8ZydfWbvhBn';
-const EMAILJS_SERVICE_ID  = 'service_89bjj8b';
-const EMAILJS_TEMPLATE_ID = 'template_zanxiao';
-const EMAIL_DESTINATAR    = 'ilina.vision@gmail.com';
+const WEB3FORMS_ACCESS_KEY = '12fd20d4-e2f3-4854-a391-2f35e887eb6a';
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  if (typeof emailjs !== 'undefined') {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }
 
   // ── Navigare activa ──
   const paginaCurenta = window.location.pathname.split('/').pop() || 'Home.html';
@@ -16,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (href === paginaCurenta) a.classList.add('activ');
   });
 
-  // ── Referinte DOM ──
   const eticheta       = document.getElementById('cal-month-label');
   const corpCalendar   = document.getElementById('cal-body');
   const containerRadio = document.getElementById('cal-radios');
@@ -44,7 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let ziSelectata  = null;
   let oraSelectata = null;
 
-  // ── Helpers localStorage ──
+  let captchaA = Math.floor(Math.random() * 9) + 1;
+  let captchaB = Math.floor(Math.random() * 9) + 1;
+  const captchaIntrebare = document.getElementById('captcha-intrebare');
+  if (captchaIntrebare) {
+    captchaIntrebare.textContent = `Cât face ${captchaA} + ${captchaB}?`;
+  }
+
   function cheieRezervare(an, luna, zi) {
     return `rezervare_${an}_${luna}_${zi}`;
   }
@@ -66,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return obtineOreRezervate(an, luna, zi).length >= TOATE_ORELE.length;
   }
 
-  // ── Randeaza calendar ──
+  // ── Calendar ──
   function redeazaCalendar(directie) {
     const an   = dataVizualizata.getFullYear();
     const luna = dataVizualizata.getMonth();
@@ -82,15 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = new Date(an, luna, z);
       data.setHours(0, 0, 0, 0);
       let tip;
-      if (+data === +azi)                              tip = 'azi';
-      else if (data < azi)                             tip = 'trecuta';
-      else if (ziEsteCompletRezervata(an, luna, z))    tip = 'rezervata';
-      else                                             tip = 'disponibila';
+      if (+data === +azi)                           tip = 'azi';
+      else if (data < azi)                          tip = 'trecuta';
+      else if (ziEsteCompletRezervata(an, luna, z)) tip = 'rezervata';
+      else                                          tip = 'disponibila';
       celule.push({ z, tip });
     }
     while (celule.length % 7 !== 0) celule.push(null);
 
-    corpCalendar.innerHTML  = '';
+    corpCalendar.innerHTML   = '';
     containerRadio.innerHTML = '';
     const selectabile = [];
 
@@ -168,7 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (grilaOre)       grilaOre.innerHTML = '';
       if (inputOraAscuns) inputOraAscuns.value = '';
 
-      // Ascunde eticheta orelor cand schimbam luna
       const etichetaOre = document.getElementById('eticheta-ore');
       if (etichetaOre) etichetaOre.style.display = 'none';
     }
@@ -183,8 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ── Randeaza grila ore ──
-  // FIX: redenumit variabila interna pentru a nu umbri `eticheta` din scope-ul exterior
+  // ──  Grila ore ──
   function redeazaGrilaOre(an, luna, zi) {
     if (!grilaOre) return;
     const oreRezervate = obtineOreRezervate(an, luna, zi);
@@ -212,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Navigare luna — 
   document.getElementById('cal-prev')?.addEventListener('click', () => {
     const candidat = new Date(dataVizualizata);
     candidat.setMonth(candidat.getMonth() - 1);
@@ -239,6 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (document.getElementById('hp')?.value) return;
+
+    // ── Timer de un minut intre cereri ──
+    const ultimaTrimitere = localStorage.getItem('ultimaTrimitere');
+    const acum = Date.now();
+    if (ultimaTrimitere && acum - parseInt(ultimaTrimitere) < 60000) {
+      afisareMesaj('Vă rugăm așteptați un minut între cereri.', 'eroare');
+      return;
+    }
+
+    // ── Verificare CAPTCHA ──
+    const raspunsCaptcha = parseInt(document.getElementById('captcha-raspuns')?.value);
+    if (isNaN(raspunsCaptcha) || raspunsCaptcha !== captchaA + captchaB) {
+      afisareMesaj('Răspuns greșit la întrebarea de verificare. Vă rugăm încercați din nou.', 'eroare');
+      captchaA = Math.floor(Math.random() * 9) + 1;
+      captchaB = Math.floor(Math.random() * 9) + 1;
+      if (captchaIntrebare) captchaIntrebare.textContent = `Cât face ${captchaA} + ${captchaB}?`;
+      if (document.getElementById('captcha-raspuns')) document.getElementById('captcha-raspuns').value = '';
+      return;
+    }
 
     const nume     = document.getElementById('nameInput')?.value.trim();
     const email    = document.getElementById('emailInput')?.value.trim();
@@ -246,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data     = inputAscuns?.value;
     const ora      = inputOraAscuns?.value;
 
+    // ── Validari ──
     if (!nume || nume.length < 3) {
       afisareMesaj('Vă rugăm introduceți un nume valid (minim 3 caractere).', 'eroare');
       return;
@@ -262,44 +280,63 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRezerva.disabled    = true;
     btnRezerva.textContent = 'Se trimite...';
 
-    const parametri = {
-      to_email:   EMAIL_DESTINATAR,
-      from_name:  nume,
-      from_email: email,
-      serviciu,
-      data:       `${ziSelectata.z} ${LUNI_RO[ziSelectata.luna]} ${ziSelectata.an}`,
-      ora,
-      mesaj: `Rezervare nouă:\nNumele: ${nume}\nEmail: ${email}\nServiciu: ${serviciu}\nData: ${ziSelectata.z} ${LUNI_RO[ziSelectata.luna]} ${ziSelectata.an}\nOra: ${ora}`
-    };
+    // ── Trimitere Web3Forms ──
+    const dataRezervare = `${ziSelectata.z} ${LUNI_RO[ziSelectata.luna]} ${ziSelectata.an}`;
 
     try {
-      if (typeof emailjs !== 'undefined') {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, parametri);
+      const raspuns = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject:    `Rezervare nouă — ${serviciu} — ${dataRezervare}, ora ${ora}`,
+          from_name:  nume,
+          email:      email,
+          serviciu:   serviciu,
+          data:       dataRezervare,
+          ora:        ora,
+          mesaj:      `Rezervare nouă:\nNume: ${nume}\nEmail: ${email}\nServiciu: ${serviciu}\nData: ${dataRezervare}\nOra: ${ora}`
+        })
+      });
+
+      const rezultat = await raspuns.json();
+
+      if (raspuns.ok && rezultat.success) {
+        adaugaOraRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z, ora);
+        localStorage.setItem('ultimaTrimitere', acum.toString());
+
+        afisareMesaj(`✓ Rezervare trimisă! Veți fi contactat în 24 ore. (${dataRezervare}, ora ${ora})`, 'succes');
+        form.reset();
+
+        redeazaGrilaOre(ziSelectata.an, ziSelectata.luna, ziSelectata.z);
+
+        if (ziEsteCompletRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z)) {
+          redeazaCalendar(null);
+        }
+
+        oraSelectata = null;
+        if (inputOraAscuns) inputOraAscuns.value = '';
+        if (afisajData) {
+          afisajData.textContent = 'Selectați din calendar';
+          afisajData.style.fontStyle = 'italic';
+          afisajData.style.color = 'var(--gri-cald)';
+        }
+        if (inputAscuns) inputAscuns.value = '';
+
+        captchaA = Math.floor(Math.random() * 9) + 1;
+        captchaB = Math.floor(Math.random() * 9) + 1;
+        if (captchaIntrebare) captchaIntrebare.textContent = `Cât face ${captchaA} + ${captchaB}?`;
+
+      } else {
+        throw new Error(rezultat.message || 'Eroare necunoscuta');
       }
-
-      adaugaOraRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z, ora);
-
-      afisareMesaj(`✓ Rezervare trimisă! Veți fi contactat în 24 ore. (${parametri.data}, ora ${ora})`, 'succes');
-      form.reset();
-
-      redeazaGrilaOre(ziSelectata.an, ziSelectata.luna, ziSelectata.z);
-
-      if (ziEsteCompletRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z)) {
-        redeazaCalendar(null);
-      }
-
-      oraSelectata = null;
-      if (inputOraAscuns) inputOraAscuns.value = '';
-      if (afisajData) {
-        afisajData.textContent = 'Selectați din calendar';
-        afisajData.style.fontStyle = 'italic';
-        afisajData.style.color = 'var(--gri-cald)';
-      }
-      if (inputAscuns) inputAscuns.value = '';
 
     } catch (err) {
-      console.error('EmailJS eroare:', err);
-      afisareMesaj('A apărut o eroare la trimitere. Vă rugăm contactați-ne direct la ' + EMAIL_DESTINATAR, 'eroare');
+      console.error('Web3Forms eroare:', err);
+      afisareMesaj('A apărut o eroare la trimitere. Vă rugăm încercați din nou mai târziu.', 'eroare');
     }
 
     btnRezerva.disabled    = false;
