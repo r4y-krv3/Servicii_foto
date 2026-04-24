@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rezervări</title>
+<title>Veil Photography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="stil.css">
@@ -11,48 +11,48 @@
 </head>
 <body>
 <header>
-  <a href="Home.html#home" class="logo">Nume <em>Prenume</em></a>
+  <a href="Home.html" class="logo">Veil <em>Photography</em></a>
   <nav>
-    <a href="Home.html#home">Home</a>
+    <a href="Home.html">Home</a>
     <a href="Portofoliu.html">Portofoliu</a>
     <a href="Servicii.html">Servicii</a>
     <a href="Rezervari.html">Calendar</a>
   </nav>
 </header>
 <main style="padding-top:98px; background:var(--bg-dark); min-height:100vh; padding-bottom:100px;">
-  <div class="section-header">
-    <h2 class="section-title">Rezervă o<br><em>Sesiune</em></h2>
-    <p class="section-desc">Verificați disponibilitatea și trimiteți o cerere de rezervare. Răspund la toate mesajele în 24 de ore.</p>
+  <div class="sectiune-antet">
+    <h2 class="sectiune-titlu">Rezervă o<br><em>Sesiune</em></h2>
+    <p class="sectiune-descriere">Verificați disponibilitatea și trimiteți o cerere de rezervare. Așteptați un răspuns în 24 de ore.</p>
   </div>
-  <div class="schedule-layout">
+  <div class="orar-layout">
 
-    <div class="schedule-info">
-      <div class="info-block">
-        <p class="info-label">Program</p>
-        <p class="info-value">Lun – Sâm<br>08:00 – 20:00</p>
+    <div class="orar-info">
+      <div class="info-bloc">
+        <p class="info-eticheta">Program</p>
+        <p class="info-valoare">Lun – Sâm<br>08:00 – 20:00</p>
         <p class="info-sub">Duminicile sunt disponibile doar pentru nunți și evenimente pre-rezervate.</p>
       </div>
-      <div class="info-block">
-        <p class="info-label">Preaviz Minim</p>
-        <p class="info-value">Min. 3 zile<br>pentru portrete</p>
+      <div class="info-bloc">
+        <p class="info-eticheta">Preaviz Minim</p>
+        <p class="info-valoare">Min. 3 zile<br>pentru portrete</p>
         <p class="info-sub">Nunțile și proiectele comerciale necesită rezervare cu cel puțin 4–6 săptămâni înainte.</p>
       </div>
-      <div class="info-block">
-        <p class="info-label">Locație</p>
-        <p class="info-value">La fața locului<br>sau studio</p>
+      <div class="info-bloc">
+        <p class="info-eticheta">Locație</p>
+        <p class="info-valoare">La fața locului<br>sau studio</p>
         <p class="info-sub">Cu sediul în Chișinău. Disponibilă pentru deplasări în Europa cu taxe aplicabile.</p>
       </div>
-      <div class="info-block">
-        <p class="info-label">Avans</p>
-        <p class="info-value">30% pentru a<br>confirma data</p>
+      <div class="info-bloc">
+        <p class="info-eticheta">Avans</p>
+        <p class="info-valoare">30% pentru a<br>confirma data</p>
         <p class="info-sub">Restul se achită în ziua sesiunii. Politică flexibilă de reprogramare.</p>
       </div>
     </div>
 
-    <div class="calendar-area">
-      <div class="cal-header">
+    <div class="calendar-arie">
+      <div class="cal-antet">
         <button id="cal-prev" class="cal-nav-btn" aria-label="Luna anterioară">&#8592;</button>
-        <span id="cal-month-label" class="cal-month">Aprilie 2026</span>
+        <span id="cal-month-label" class="cal-luna">Aprilie 2026</span>
         <button id="cal-next" class="cal-nav-btn" aria-label="Luna următoare">&#8594;</button>
       </div>
 
@@ -68,28 +68,32 @@
         <tbody id="cal-body"></tbody>
       </table>
 
-      <div class="cal-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#5a9a5a"></div>Disponibil</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#a0392b"></div>Rezervat</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Azi</div>
+      <div class="cal-legenda">
+        <div class="legenda-text"><div class="legenda-cerc" style="background:#5a9a5a"></div>Disponibil</div>
+        <div class="legenda-text"><div class="legenda-cerc" style="background:#a0392b"></div>Rezervat</div>
+        <div class="legenda-text"><div class="legenda-cerc" style="background:var(--auriu)"></div>Azi</div>
+        <div class="legenda-text"><div class="legenda-cerc" style="background:rgba(138,130,112,0.35)"></div>Oră rezervată</div>
       </div>
 
-      <div class="booking-form">
-        <form action="mailto:book@exempluEmail.com" method="GET" enctype="text/plain">
-          <div class="form-row">
-            <div class="form-field">
+      <p class="eticheta-ore" id="eticheta-ore" style="display:none">Selectați ora preferată</p>
+      <div class="grila-ore" id="grila-ore"></div>
+
+      <div class="formular-rezervare">
+        <form id="formular-rezervare">
+          <div class="formular-rand">
+            <div class="camp-formular">
               <label for="nameInput">Numele Dvs.</label>
-              <input type="text" id="nameInput" name="Nume" placeholder="Nume complet" required minlength="2">
+              <input type="text" id="nameInput" name="Nume" placeholder="Nume complet" required minlength="3">
             </div>
-            <div class="form-field">
+            <div class="camp-formular">
               <label for="emailInput">Email</label>
               <input type="email" id="emailInput" name="Email" placeholder="email@dvs.com" required>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="sessionType">Tip Sesiune</label>
-              <select id="sessionType" name="Serviciu">
+          <div class="formular-rand">
+            <div class="camp-formular">
+              <label for="tipSesiune">Tip Sesiune</label>
+              <select id="tipSesiune" name="Serviciu">
                 <option>Sesiune Portret</option>
                 <option>Concerte</option>
                 <option>Comercial</option>
@@ -98,40 +102,30 @@
                 <option>Povești de Familie</option>
               </select>
             </div>
-            <div class="form-field">
-              <label for="timeInput">Ora Preferată</label>
-              <select id="timeInput" name="Ora">
-                <option value="">— Selectați ora —</option>
-                <option>08:00</option><option>09:00</option>
-                <option>10:00</option><option>11:00</option>
-                <option>12:00</option><option>13:00</option>
-                <option>14:00</option><option>15:00</option>
-                <option>16:00</option><option>17:00</option>
-                <option>18:00</option><option>19:00</option>
-                <option>20:00</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label>Data Selectată</label>
-              <div class="date-display">
-                <span id="date-display-val" style="color:var(--warm-gray);font-style:italic">Selectați din calendar</span>
+            <div class="camp-formular">
+              <label>Data &amp; Ora Selectată</label>
+              <div class="afisare-data">
+                <span id="date-display-val" style="color:var(--gri-cald);font-style:italic">Selectați din calendar</span>
               </div>
-              <input type="hidden" id="dateInput" name="Data">
             </div>
           </div>
-          <button type="submit" class="btn-book">Trimite Cererea de Rezervare</button>
+
+          <input type="hidden" id="dateInput" name="Data">
+          <input type="hidden" id="oraInput"  name="Ora">
+
+          <button type="submit" id="btn-rezerva" class="btn-book">Trimite Cererea de Rezervare</button>
         </form>
+
+        <div id="notificare" class="notificare"></div>
       </div>
     </div>
-
   </div>
 </main>
+
 <footer>
   <div class="footer-main">
     <div class="footer-brand-col">
-      <a href="Home.html" class="logo">Nume <em>Prenume</em></a>
+      <a href="Home.html" class="logo">Veil <em>Photography</em></a>
       <p class="footer-tagline">"Photography is the art of frozen time — the ability to store emotion and feelings."</p>
       <div class="social-links">
         <a href="#" class="social-link">IG</a>
@@ -161,14 +155,14 @@
     </div>
     <div>
       <p class="footer-col-title">Contacte</p>
-      <div class="contact-block"><small>Email</small><span>exemplu.email@gmail.com</span></div>
-      <div class="contact-block"><small>Phone</small><span>+373 6273 69</span></div>
-      <div class="contact-block"><small>Studio</small><span>Bd. Moscova, 21<br>Chișinău, Moldova</span></div>
-      <div class="contact-block"><small>Rezervări</small><span>book@exempluEmail.com</span></div>
+      <div class="contact-bloc"><small>Email</small><span>veil.photography@gmail.com</span></div>
+      <div class="contact-bloc"><small>Phone</small><span>+373 6273 69</span></div>
+      <div class="contact-bloc"><small>Studio</small><span>Bd. Moscova, 21<br>Chișinău, Moldova</span></div>
+      <div class="contact-bloc"><small>Rezervări</small><span>book@veilphotography.com</span></div>
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 Nume Prenume Photography. All rights reserved.</p>
+    <p class="footer-copie">© 2026 Veil Photography. All rights reserved.</p>
     <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
 </footer>
