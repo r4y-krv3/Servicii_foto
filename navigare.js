@@ -2,8 +2,8 @@ const WEB3FORMS_ACCESS_KEY = '12fd20d4-e2f3-4854-a391-2f35e887eb6a';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ── Navigare activa ──
-  const paginaCurenta = window.location.pathname.split('/').pop() || 'Home.html';
+  // ── Navigare ──
+  const paginaCurenta = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('nav a').forEach(a => {
     const href = a.getAttribute('href').split('#')[0].split('/').pop();
     if (href === paginaCurenta) a.classList.add('activ');
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Verificare CAPTCHA ──
     const raspunsCaptcha = parseInt(document.getElementById('captcha-raspuns')?.value);
     if (isNaN(raspunsCaptcha) || raspunsCaptcha !== captchaA + captchaB) {
-      afisareMesaj('Răspuns greșit la întrebarea de verificare. Vă rugăm încercați din nou.', 'eroare');
+      afisareMesaj('Răspuns greșit. Vă rugăm încercați din nou.', 'eroare');
       captchaA = Math.floor(Math.random() * 9) + 1;
       captchaB = Math.floor(Math.random() * 9) + 1;
       if (captchaIntrebare) captchaIntrebare.textContent = `Cât face ${captchaA} + ${captchaB}?`;
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Validari ──
     if (!nume || nume.length < 3) {
-      afisareMesaj('Vă rugăm introduceți un nume valid (minim 3 caractere).', 'eroare');
+      afisareMesaj('Vă rugăm introduceți un nume valid (minim 9 caractere).', 'eroare');
       return;
     }
     if (!data) {
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (!ora) {
-      afisareMesaj('Vă rugăm selectați o oră din grila de mai jos.', 'eroare');
+      afisareMesaj('Vă rugăm selectați o oră de mai sus.', 'eroare');
       return;
     }
 
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
         adaugaOraRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z, ora);
         localStorage.setItem('ultimaTrimitere', acum.toString());
 
-        afisareMesaj(`✓ Rezervare trimisă! Veți fi contactat în 24 ore. (${dataRezervare}, ora ${ora})`, 'succes');
+        afisareMesaj(`Rezervare trimisă! Veți fi contactat în 24 ore. (${dataRezervare}, ora ${ora})`, 'succes');
         form.reset();
 
         redeazaGrilaOre(ziSelectata.an, ziSelectata.luna, ziSelectata.z);
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } catch (err) {
       console.error('Web3Forms eroare:', err);
-      afisareMesaj('A apărut o eroare la trimitere. Vă rugăm încercați din nou mai târziu.', 'eroare');
+      afisareMesaj('A apărut o eroare. Vă rugăm încercați din nou mai târziu.', 'eroare');
     }
 
     btnRezerva.disabled    = false;
