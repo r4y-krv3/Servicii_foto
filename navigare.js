@@ -194,7 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
       slot.className = 'slot-ora';
       slot.textContent = ora;
 
-      if (oreRezervate.includes(ora)) {
+      const esteAzi = ziSelectata &&
+        ziSelectata.z   === azi.getDate() &&
+        ziSelectata.luna === azi.getMonth() &&
+        ziSelectata.an   === azi.getFullYear();
+
+      const oraTrecuta = esteAzi && parseInt(ora) <= new Date().getHours();
+
+      if (oreRezervate.includes(ora) || oraTrecuta) {
         slot.classList.add('rezervat');
       } else {
         slot.addEventListener('click', () => {
@@ -226,6 +233,70 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   redeazaCalendar(null);
+
+  const CAMPURI_FORMULAR = ['nameInput', 'emailInput', 'telefon', 'tipSesiune'];
+
+  // Salveaza valoarea unui camp la fiecare modificare
+  function salveazaCamp(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    ['input', 'change'].forEach(ev =>
+      el.addEventListener(ev, () => {
+        localStorage.setItem(`form_${id}`, JSON.stringify(el.value));
+      })
+    );
+  }
+
+  // Reincarca valorile salvate dupa refresh
+  function reincarcaFormular() {
+    CAMPURI_FORMULAR.forEach(id => {
+      const el  = document.getElementById(id);
+      const raw = localStorage.getItem(`form_${id}`);
+      if (el && raw !== null) {
+        try {
+          el.value = JSON.parse(raw);
+          actualizeazaStilCamp(el);
+        } catch { /* ignora erori de parsare */ }
+      }
+    });
+  }
+
+  function stergeFormularSalvat() {
+    CAMPURI_FORMULAR.forEach(id => localStorage.removeItem(`form_${id}`));
+  }
+
+  // Adauga clasa camp-valid sau camp-invalid in functie de continut
+  function actualizeazaStilCamp(el) {
+    if (!el) return;
+    if (!el.value.trim()) {
+      el.classList.remove('camp-valid', 'camp-invalid');
+      return;
+    }
+    const esteValid = el.checkValidity !== undefined ? el.checkValidity() : true;
+    el.classList.toggle('camp-valid',   esteValid);
+    el.classList.toggle('camp-invalid', !esteValid);
+  }
+
+  // Porneste salvarea si feedback-ul vizual pe toate campurile
+  CAMPURI_FORMULAR.forEach(id => {
+    salveazaCamp(id);
+    const el = document.getElementById(id);
+    if (!el) return;
+    ['input', 'change', 'blur'].forEach(ev =>
+      el.addEventListener(ev, () => actualizeazaStilCamp(el))
+    );
+  });
+
+  // Animatie de agitare pe buton cand validarea esueaza
+  function shakeButon(btn) {
+    if (!btn) return;
+    btn.classList.remove('shake');
+    void btn.offsetWidth;
+    btn.classList.add('shake');
+    btn.addEventListener('animationend', () => btn.classList.remove('shake'), { once: true });
+  }
+
+  reincarcaFormular();
 
   // ── Formular ──
   const form       = document.getElementById('formular-rezervare');
@@ -259,21 +330,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nume     = document.getElementById('nameInput')?.value.trim();
     const email    = document.getElementById('emailInput')?.value.trim();
+    const nrTelefon = document.getElementById('telefon')?.value.trim();
     const serviciu = document.getElementById('tipSesiune')?.value;
     const data     = inputAscuns?.value;
     const ora      = inputOraAscuns?.value;
 
     // ── Validari ──
-    if (!nume || nume.length < 3) {
+    if (!nume || nume.length < 9) {
       afisareMesaj('Vă rugăm introduceți un nume valid (minim 9 caractere).', 'eroare');
+      shakeButon(btnRezerva);
+      return;
+    }
+    const elTelefon = document.getElementById('telefon');
+    if (!elTelefon || !elTelefon.checkValidity()) {
+      afisareMesaj('Vă rugăm introduceți un nr. de telefon valid.', 'eroare');
+      shakeButon(btnRezerva);
       return;
     }
     if (!data) {
       afisareMesaj('Vă rugăm selectați o dată din calendar.', 'eroare');
+      shakeButon(btnRezerva);
       return;
     }
     if (!ora) {
       afisareMesaj('Vă rugăm selectați o oră de mai sus.', 'eroare');
+      shakeButon(btnRezerva);
       return;
     }
 
@@ -295,10 +376,11 @@ document.addEventListener('DOMContentLoaded', () => {
           subject:    `Rezervare nouă — ${serviciu} — ${dataRezervare}, ora ${ora}`,
           from_name:  nume,
           email:      email,
+          telefon:    nrTelefon,
           serviciu:   serviciu,
           data:       dataRezervare,
           ora:        ora,
-          mesaj:      `Rezervare nouă:\nNume: ${nume}\nEmail: ${email}\nServiciu: ${serviciu}\nData: ${dataRezervare}\nOra: ${ora}`
+          mesaj:      `Rezervare nouă:\nNume: ${nume}\nEmail: ${email}\nNr. de Contact: ${nrTelefon}\nServiciu: ${serviciu}\nData: ${dataRezervare}\nOra: ${ora}`
         })
       });
 
@@ -307,6 +389,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (raspuns.ok && rezultat.success) {
         adaugaOraRezervata(ziSelectata.an, ziSelectata.luna, ziSelectata.z, ora);
         localStorage.setItem('ultimaTrimitere', acum.toString());
+
+        stergeFormularSalvat();
+
+        CAMPURI_FORMULAR.forEach(id => {
+          document.getElementById(id)?.classList.remove('camp-valid', 'camp-invalid');
+        });
 
         afisareMesaj(`Rezervare trimisă! Veți fi contactat în 24 ore. (${dataRezervare}, ora ${ora})`, 'succes');
         form.reset();

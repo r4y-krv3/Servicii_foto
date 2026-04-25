@@ -30,17 +30,17 @@
       <div class="info-bloc">
         <p class="info-eticheta">Program</p>
         <p class="info-valoare">Lun – Sâm<br>08:00 – 20:00</p>
-        <p class="info-sub">Duminicile sunt disponibile doar pentru nunți și evenimente pre-rezervate.</p>
+        <p class="info-sub">Duminicile sunt disponibile doar pentru concerte și evenimente pre-rezervate.</p>
       </div>
       <div class="info-bloc">
         <p class="info-eticheta">Preaviz Minim</p>
         <p class="info-valoare">Min. 3 zile<br>pentru portrete</p>
-        <p class="info-sub">Nunțile și proiectele comerciale necesită rezervare cu cel puțin 4–6 săptămâni înainte.</p>
+        <p class="info-sub">Concertele și proiectele comerciale necesită rezervare cu cel puțin 4–6 săptămâni înainte.</p>
       </div>
       <div class="info-bloc">
         <p class="info-eticheta">Locație</p>
-        <p class="info-valoare">La fața locului<br>sau studio</p>
-        <p class="info-sub">Cu sediul în Chișinău. Disponibilă pentru deplasări în Europa cu taxe aplicabile.</p>
+        <p class="info-valoare">Prestabilită direct cu fotograful</p>
+        <p class="info-sub">În studio, cu sediul în Chișinău sau în natură. Disponibilă pentru deplasări în Europa cu taxe aplicabile.</p>
       </div>
       <div class="info-bloc">
         <p class="info-eticheta">Avans</p>
@@ -92,6 +92,10 @@
           </div>
           <div class="formular-rand">
             <div class="camp-formular">
+              <label for="telefon">Număr de telefon:</label>
+              <input type="tel" id="telefon" name="telefon" placeholder="06xx-xxx-xx" pattern="0[0-9]{8}">
+            </div>
+            <div class="camp-formular">
               <label for="tipSesiune">Tip Sesiune</label>
               <select id="tipSesiune" name="Serviciu">
                 <option>Sesiune Portret</option>
@@ -102,12 +106,6 @@
                 <option>Povești de Familie</option>
               </select>
             </div>
-            <div class="camp-formular">
-              <label>Data &amp; Ora Selectată</label>
-              <div class="afisare-data">
-                <span id="date-display-val" style="color:var(--gri-cald);font-style:italic">Selectați din calendar</span>
-              </div>
-            </div>
           </div>
 
           <input type="hidden" id="dateInput" name="Data">
@@ -115,6 +113,12 @@
           <input type="text" id="hp" name="hp" style="display:none" tabindex="-1" autocomplete="off">
 
           <div class="formular-rand">
+            <div class="camp-formular">
+              <label>Data Selectată</label>
+              <div class="afisare-data">
+                <span id="date-display-val" style="color:var(--gri-cald);font-style:italic">Selectați din calendar</span>
+              </div>
+            </div>
             <div class="camp-formular">
               <label id="captcha-intrebare"></label>
               <input type="number" id="captcha-raspuns" placeholder="Răspunsul dvs." required>
@@ -133,7 +137,7 @@
 <footer>
   <div class="footer-main">
     <div class="footer-brand-col">
-      <a href="Home.html" class="logo">Veil <em>Photography</em></a>
+      <a href="index.html" class="logo">Veil <em>Photography</em></a>
       <p class="footer-tagline">"Photography is the art of frozen time — the ability to store emotion and feelings."</p>
       <div class="social-links">
         <a href="#" class="social-link">IG</a>
