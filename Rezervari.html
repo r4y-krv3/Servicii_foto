@@ -178,5 +178,21 @@
     <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
 </footer>
+
+<div id="admin-rez-overlay"></div>
+<div id="admin-rez-panel">
+  <p class="admin-titlu">Admin — Rezervări</p>
+
+  <div id="admin-rez-login">
+    <input id="admin-rez-parola" class="admin-input" type="password" placeholder="Parolă">
+    <button class="admin-btn-principal" onclick="adminRezVerificaParola()">Intră</button>
+  </div>
+
+  <div id="admin-rez-continut" style="display:none">
+    <div id="admin-rez-lista"></div>
+    <button class="admin-btn-secundar" style="margin-top:16px" onclick="adminRezInchide()">Închide</button>
+  </div>
+</div>
+
 <script src="navigare.js"></script>
 </body></html>

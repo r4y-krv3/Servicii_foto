@@ -400,3 +400,161 @@ footer { background: var(--fundal-inchis); border-top: 1px solid var(--bordura);
   transition: border-color 0.3s, background 0.3s;
 }
 .cal-nav-btn:hover { border-color: var(--auriu); background: rgba(184,137,90,0.1); }
+
+/* ── ADMIN REZERVĂRI ── */
+#admin-rez-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 9998;
+}
+
+#admin-rez-panel {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--fundal-inchis);
+  border: 1px solid var(--bordura);
+  padding: 36px;
+  z-index: 9999;
+  width: 380px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.admin-titlu {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--auriu);
+  margin-bottom: 16px;
+}
+
+.admin-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--bordura);
+  color: var(--crem);
+  padding: 10px 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.76rem;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color 0.3s;
+}
+
+.admin-input:focus  { border-color: var(--auriu); }
+.admin-input.eroare { border-color: #a0392b; }
+
+/* ── ADMIN SLOT ORE (buton deletabil) ── */
+.admin-slot-ora {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  margin: 4px;
+  border: 1px solid var(--gri-cald);
+  background: var(--fundal);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: #e8b8a0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.admin-slot-ora:hover {
+  background: var(--fundal-inchis);
+  border-color: var(--gri-cald);
+  color: var(--crem);
+  transform: translateY(-1px);
+}
+
+.admin-slot-ora:active {
+  transform: scale(0.98);
+  background: rgba(160, 57, 43, 0.3);
+}
+
+/* Delete symbol */
+.admin-slot-ora .delete-x {
+  margin-left: 8px;
+  font-size: 1.15em;
+  opacity: 0.9;
+}
+
+.admin-slot-ora:hover .delete-x {
+  opacity: 1;
+  color: #ff9a85;
+}
+
+.admin-btn-principal {
+  width: 100%;
+  background: var(--auriu);
+  color: var(--fundal-inchis);
+  border: none;
+  padding: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.3s;
+}
+
+.admin-btn-principal:hover { background: var(--auriu-deschis); }
+
+.admin-btn-secundar {
+  width: 100%;
+  background: none;
+  color: var(--gri-cald);
+  border: 1px solid var(--bordura);
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.admin-btn-secundar:hover { border-color: var(--auriu); color: var(--auriu); }
+
+.admin-poza-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bordura);
+}
+
+.admin-poza-titlu {
+  font-size: 0.76rem;
+  color: var(--crem);
+  font-weight: 500;
+}
+
+.admin-btn-sterge {
+  background: none;
+  border: 1px solid rgba(160,57,43,0.4);
+  color: #a0392b;
+  padding: 4px 10px;
+  font-size: 0.6rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.admin-btn-sterge:hover { background: rgba(160,57,43,0.1); }
+
+.admin-gol {
+  font-size: 0.72rem;
+  color: var(--gri-cald);
+  font-style: italic;
+  padding: 10px 0;
+}
