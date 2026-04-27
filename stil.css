@@ -525,33 +525,6 @@ footer { background: var(--fundal-inchis); border-top: 1px solid var(--bordura);
 
 .admin-btn-secundar:hover { border-color: var(--auriu); color: var(--auriu); }
 
-.admin-poza-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--bordura);
-}
-
-.admin-poza-titlu {
-  font-size: 0.76rem;
-  color: var(--crem);
-  font-weight: 500;
-}
-
-.admin-btn-sterge {
-  background: none;
-  border: 1px solid rgba(160,57,43,0.4);
-  color: #a0392b;
-  padding: 4px 10px;
-  font-size: 0.6rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.admin-btn-sterge:hover { background: rgba(160,57,43,0.1); }
-
 .admin-gol {
   font-size: 0.72rem;
   color: var(--gri-cald);
