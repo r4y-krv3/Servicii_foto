@@ -523,6 +523,24 @@ footer { background: var(--fundal-inchis); border-top: 1px solid var(--bordura);
   transition: border-color 0.3s, color 0.3s;
 }
 
+.admin-btn-sterge {
+  background: none;
+  color: var(--gri-cald);
+  border: 1px solid var(--bordura);
+  padding: 6px 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.admin-btn-sterge:hover {
+  border-color: #a0392b;
+  color: #ff9a85;
+}
+
 .admin-btn-secundar:hover { border-color: var(--auriu); color: var(--auriu); }
 
 .admin-gol {
